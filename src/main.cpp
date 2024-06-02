@@ -10,14 +10,14 @@
 ez::Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
   //   the first port is used as the sensor
-  {1, 2, 3}
+  {-7, 8, -9, -10}
 
   // Right Chassis Ports (negative port will reverse it!)
   //   the first port is used as the sensor
-  ,{-4, -5, -6}
+  ,{-1, 2, 3, 4}
 
   // IMU Port
-  ,7
+  ,11
 
   // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
   ,3.25
@@ -49,7 +49,7 @@ void initialize() {
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true); // Enables modifying the controller curve with buttons on the joysticks
   chassis.opcontrol_drive_activebrake_set(0); // Sets the active brake kP. We recommend 2.
-  chassis.opcontrol_curve_default_set(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
+  chassis.opcontrol_curve_default_set(3.9, 4.3); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -146,6 +146,15 @@ void autonomous() {
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+
+  pros::Motor intakeMotor1(20);
+  pros::Motor intakeMotor2(-19);
+  pros::Motor_Group intake({intakeMotor1, intakeMotor2});
+  ez::Piston intakeLift('B');
+  ez::Piston mogoClamp('A');
+
+  bool mogoDeployed = false;
+  bool intakeDeployed = false;
   
   while (true) {
     
@@ -166,8 +175,8 @@ void opcontrol() {
       chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
     } 
 
-    chassis.opcontrol_tank(); // Tank control
-    // chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
+    // chassis.opcontrol_tank(); // Tank control
+    chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE); // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT); // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE); // Flipped single arcade
@@ -175,6 +184,27 @@ void opcontrol() {
     // . . .
     // Put more user control code here!
     // . . .
+
+  if(master.get_digital(DIGITAL_R2)){
+    intake = 90;
+  }
+  else if(master.get_digital(DIGITAL_R1)){
+    intake = -90;
+  }
+  else{
+    intake = 0;
+  }
+
+
+  if(master.get_digital_new_press(DIGITAL_L2)){
+    mogoDeployed = !mogoDeployed;
+    mogoClamp.set(mogoDeployed);
+  }
+
+  if(master.get_digital_new_press(DIGITAL_L1)){
+    intakeDeployed = !intakeDeployed;
+    intakeLift.set(intakeDeployed);
+  }
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
