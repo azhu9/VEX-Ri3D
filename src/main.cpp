@@ -147,9 +147,9 @@ void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
-  pros::Motor intakeMotor1(20);
-  pros::Motor intakeMotor2(-19);
-  pros::Motor_Group intake({intakeMotor1, intakeMotor2});
+  // pros::Motor intakeMotor1(20);
+  // pros::Motor intakeMotor2(-19);
+  // pros::Motor_Group intake({intakeMotor1, intakeMotor2});
   ez::Piston intakeLift('B');
   ez::Piston mogoClamp('A');
 
@@ -185,15 +185,15 @@ void opcontrol() {
     // Put more user control code here!
     // . . .
 
-  if(master.get_digital(DIGITAL_R2)){
-    intake = 90;
-  }
-  else if(master.get_digital(DIGITAL_R1)){
-    intake = -90;
-  }
-  else{
-    intake = 0;
-  }
+  // if(master.get_digital(DIGITAL_R2)){
+  //   intake = 90;
+  // }
+  // else if(master.get_digital(DIGITAL_R1)){
+  //   intake = -90;
+  // }
+  // else{
+  //   intake = 0;
+  // }
 
 
   if(master.get_digital_new_press(DIGITAL_L2)){
