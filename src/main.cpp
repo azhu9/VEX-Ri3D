@@ -10,17 +10,6 @@
 ez::Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
   //   the first port is used as the sensor
-<<<<<<< Updated upstream
-  {-7, 8, -9, -10}
-
-  // Right Chassis Ports (negative port will reverse it!)
-  //   the first port is used as the sensor
-  ,{-1, 2, 3, 4}
-
-  // IMU Port
-  ,11
-=======
-<<<<<<< HEAD
   {-11, -12, -13, -14}
 
   // Right Chassis Ports (negative port will reverse it!)
@@ -29,17 +18,6 @@ ez::Drive chassis (
 
   // IMU Port
   ,6
-=======
-  {-7, 8, -9, -10}
-
-  // Right Chassis Ports (negative port will reverse it!)
-  //   the first port is used as the sensor
-  ,{-1, 2, 3, 4}
-
-  // IMU Port
-  ,11
->>>>>>> d585123afd0560cdae50029ce398cb8c977fdca8
->>>>>>> Stashed changes
 
   // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
   ,3.25
